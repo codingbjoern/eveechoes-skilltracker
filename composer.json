@@ -1,0 +1,6 @@
+{
+    "require": {
+        "restcord/restcord": "0.4.*",
+        "react/event-loop": "^1.1"
+    }
+}
