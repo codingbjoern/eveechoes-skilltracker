@@ -52,6 +52,7 @@
 		$servername = $configuration['servername'];
 		$username = $configuration['username'];
 		$password = $configuration['password'];
+		$databasename = $configuration['databasename'];
 		// Create connection
 		$conn = new mysqli($servername, $username, $password);
 
@@ -61,11 +62,17 @@
 			write_log_information($error_message);
 		  	die($error_message);
 		}
-		write_log_information("Connected successfully");
+		$db_selected = mysqli_select_db($databasename, $conn);
+		if (!$db_selected) {
+			die ('Kann Datenbank ' . $databasename . ' nicht benutzen : ' . $db_selected->error);
+		}
 		$sql = "SELECT answer FROM question_answers WHERE question = '" . $userinput->content . "'";
 		write_log_information("run query: " . $sql);
-		if($result = $conn->query($sql)) 
+		$result = $db_selected->query($sql);
+		if(!$result) 
 		{
+			write_log_information('Problem with query: ' . $db_selected->error);
+		} else {
 			var_dump($result);
 			if ($result->num_rows > 0) {
 				// output data of each row
