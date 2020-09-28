@@ -2,3 +2,4 @@ last_query.timestamp
 config.ini
 log*
 composer.phar
+composer.lock
